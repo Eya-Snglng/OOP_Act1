@@ -1,5 +1,4 @@
 <?php
-// ================== DATABASE CLASS ==================
 class Database
 {
     private $host = "localhost";
@@ -28,7 +27,6 @@ class Database
     }
 }
 
-// ================== STUDENT CLASS ==================
 class Student
 {
     private $conn;
@@ -67,7 +65,6 @@ class Student
     }
 }
 
-// ================== ATTENDANCE CLASS ==================
 class Attendance
 {
     private $conn;
@@ -106,22 +103,18 @@ class Attendance
     }
 }
 
-// ================== SETUP ==================
 $database = new Database();
 $db = $database->getConnection();
 
 $student = new Student($db);
 $attendance = new Attendance($db);
 
-// ================== FORM HANDLING ==================
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Add Student
     if (isset($_POST['add_student'])) {
         $student->addStudent(['name' => $_POST['name'], 'email' => $_POST['email']]);
         echo "<p>Student added successfully!</p>";
     }
 
-    // Update Student
     if (isset($_POST['update_student'])) {
         $student->updateStudent(
             ['name' => $_POST['name'], 'email' => $_POST['email']],
@@ -130,13 +123,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo "<p>Student updated successfully!</p>";
     }
 
-    // Delete Student
     if (isset($_POST['delete_student'])) {
         $student->deleteStudent(['id' => $_POST['id']]);
         echo "<p>Student deleted successfully!</p>";
     }
 
-    // Add Attendance
     if (isset($_POST['add_attendance'])) {
         $attendance->addAttendance([
             'student_id' => $_POST['student_id'],
@@ -146,12 +137,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-// Fetch lists
 $students = $student->getStudents();
 $attendances = $attendance->getAttendance();
 ?>
 
-<!-- ================== HTML ================== -->
 <!DOCTYPE html>
 <html lang="en">
 
@@ -189,7 +178,6 @@ $attendances = $attendance->getAttendance();
 <body>
     <h1>Student and Attendance Management</h1>
 
-    <!-- ADD STUDENT -->
     <h2>Add Student</h2>
     <form method="POST">
         <input type="text" name="name" placeholder="Student Name" required>
@@ -197,7 +185,6 @@ $attendances = $attendance->getAttendance();
         <button type="submit" name="add_student">Add Student</button>
     </form>
 
-    <!-- UPDATE STUDENT -->
     <h2>Update Student</h2>
     <form method="POST">
         <input type="number" name="id" placeholder="Student ID" required>
@@ -206,14 +193,12 @@ $attendances = $attendance->getAttendance();
         <button type="submit" name="update_student">Update Student</button>
     </form>
 
-    <!-- DELETE STUDENT -->
     <h2>Delete Student</h2>
     <form method="POST">
         <input type="number" name="id" placeholder="Student ID" required>
         <button type="submit" name="delete_student">Delete Student</button>
     </form>
 
-    <!-- ADD ATTENDANCE -->
     <h2>Add Attendance</h2>
     <form method="POST">
         <select name="student_id" required>
@@ -226,7 +211,6 @@ $attendances = $attendance->getAttendance();
         <button type="submit" name="add_attendance">Add Attendance</button>
     </form>
 
-    <!-- STUDENT LIST -->
     <h2>All Students</h2>
     <table>
         <tr>
@@ -243,7 +227,6 @@ $attendances = $attendance->getAttendance();
         <?php endforeach; ?>
     </table>
 
-    <!-- ATTENDANCE LIST -->
     <h2>Attendance Records</h2>
     <table>
         <tr>
@@ -260,5 +243,6 @@ $attendances = $attendance->getAttendance();
         <?php endforeach; ?>
     </table>
 </body>
+
 
 </html>
